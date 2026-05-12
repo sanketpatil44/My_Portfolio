@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Bio } from "../../data/constants";
 import TypeWriter from "typewriter-effect";
-import HeroImg from "../../images/Sanket_Img.jpg";
+import HeroImg from "../../images/Sanket_Img.png";
 import HeroBgAnimation from "../HeroBgAnimation/HeroBgAnimation";
 
 const HeroContainer = styled.div`
@@ -184,22 +184,18 @@ const ResumeButton = styled.a`
 `;
 
 const Image = styled.img`
-width: 100%;
-height: 100%;
+width: min(100%, 400px);
+aspect-ratio: 1 / 1;
 position: relative;
 border-radius: 50%;
-max-height: 400px;
-max-width: 400px;
 object-fit: cover;
 object-position: center;
 border: 2px solid ${({ theme }) => theme.primary};
 @media screen  and (max-width: 768px) {
-    max-width: 400px;  
-    max-height: 400px;
+    width: min(100%, 400px);
 }
 @media screen  and (max-width: 640px) {
-    max-width: 280px;  
-    max-height: 280px;
+    width: min(100%, 280px);
 }
 `;
 
