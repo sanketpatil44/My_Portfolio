@@ -12,6 +12,8 @@ export const Bio = {
   resume:
     "https://drive.google.com/file/d/1z8S1ZiI25M3hdTEtwe9FdKCPo753wtha/view?usp=drive_link",
   linkedin: "https://www.linkedin.com/in/sanket-patil-9b9694352",
+  insta: "https://www.instagram.com/sanketpatil20399?igsh=MWJzbXd0MzU1bzVwMw==",
+  facebook:"https://www.facebook.com/share/14iDrrHnV5F/"
 };
 
 export const skills = [

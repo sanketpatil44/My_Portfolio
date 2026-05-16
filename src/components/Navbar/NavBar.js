@@ -15,7 +15,7 @@ const Nav = styled.div`
   top: 0;
   z-index: 10;
   @media (max-width: 960px) {
-    trastion: 0.8s all ease;
+    transition: 0.8s all ease;
   }
 `;
 
@@ -126,7 +126,7 @@ const MobileMenu = styled.div`
   flex-direction: column;
   justify-content: center;
   gap: 16px;
-  position: absolute;
+  position: fixed;
   top: 80px;
   right: 0;
   width: 100%;
@@ -140,7 +140,7 @@ const MobileMenu = styled.div`
   opacity: ${({ open }) => (open ? "100%" : "0")};
   z-index: ${({ open }) => (open ? "1000" : "-1000")};
 `;
-const MobileMenuLink = styled(LinkR)`
+const MobileMenuLink = styled.a`
   color: ${({ theme }) => theme.text_primary};
   font-weight: 500;
   cursor: pointer;
@@ -163,7 +163,7 @@ const Navbar = () => {
       <Nav>
         <NavContainer>
           <NavLogo to="/">
-            <a
+            <div
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -174,7 +174,7 @@ const Navbar = () => {
             >
               <DiCssdeck size="3rem" />
               <span>My Portfolio</span>
-            </a>
+            </div>
           </NavLogo>
           <MobileIcon>
             <FaBars onClick={() => setOpen(!open)} />
@@ -184,6 +184,7 @@ const Navbar = () => {
             <NavLink href="#skills">Skills</NavLink>
             <NavLink href="#experience">Experience</NavLink>
             <NavLink href="#education">Education</NavLink>
+            <NavLink href="#contact">Contact</NavLink>
           </NavItems>
           <ButtonContainer>
             <GitHubButton
@@ -223,20 +224,20 @@ const Navbar = () => {
             Experience
           </MobileMenuLink>
           <MobileMenuLink
-            href="#projects"
-            onClick={() => {
-              setOpen(!open);
-            }}
-          >
-            Projects
-          </MobileMenuLink>
-          <MobileMenuLink
             href="#education"
             onClick={() => {
               setOpen(!open);
             }}
           >
             Education
+          </MobileMenuLink>
+          <MobileMenuLink
+            href="#contact"
+            onClick={() => {
+              setOpen(!open);
+            }}
+          >
+            Contact
           </MobileMenuLink>
           <GitHubButton
             style={{
