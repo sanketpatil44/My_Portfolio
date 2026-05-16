@@ -1,8 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useRef } from 'react';
 import emailjs from '@emailjs/browser';
-import { Snackbar } from '@mui/material';
+import { Snackbar, Alert } from '@mui/material';
 
 const Container = styled.div`
 display: flex;
@@ -118,24 +117,50 @@ const ContactButton = styled.input`
   color: ${({ theme }) => theme.text_primary};
   font-size: 18px;
   font-weight: 600;
+  cursor: pointer;
 `
 
 
 
 const Contact = () => {
 
-  //hooks
+  // hooks
   const [open, setOpen] = React.useState(false);
-  const form = useRef();
+  const [snackbarMessage, setSnackbarMessage] = React.useState('');
+  const [severity, setSeverity] = React.useState('success');
+
+  const handleClose = (_, reason) => {
+    if (reason === 'clickaway') return;
+    setOpen(false);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    emailjs.sendForm('service_tox7kqs', 'template_nv7k7mj', form.current, 'SybVGsYS52j2TfLbi')
-      .then((result) => {
+    const form = e.target;
+    const formData = new FormData(form);
+    const email = formData.get('email')?.toString().trim();
+    const name = formData.get('name')?.toString().trim();
+    const title = formData.get('title')?.toString().trim() || 'Portfolio Contact';
+    const message = formData.get('message')?.toString().trim();
+
+    if (!email || !name || !message) {
+      setSnackbarMessage('Please complete all required fields.');
+      setSeverity('error');
+      setOpen(true);
+      return;
+    }
+
+    emailjs.sendForm('service_um98pzk', 'template_41nb9xd', form, 'rNxq4wlc24mocptlO')
+      .then(() => {
+        setSnackbarMessage('Message sent successfully!');
+        setSeverity('success');
         setOpen(true);
-        form.current.reset();
+        form.reset();
       }, (error) => {
-        console.log(error.text);
+        console.error(error.text);
+        setSnackbarMessage('Failed to send message. Please try again later.');
+        setSeverity('error');
+        setOpen(true);
       });
   }
 
@@ -146,21 +171,25 @@ const Contact = () => {
       <Wrapper>
         <Title>Contact</Title>
         <Desc>Feel free to reach out to me for any questions or opportunities!</Desc>
-        <ContactForm ref={form} onSubmit={handleSubmit}>
+        <ContactForm onSubmit={handleSubmit}>
           <ContactTitle>Email Me 🚀</ContactTitle>
-          <ContactInput placeholder="Your Email" name="from_email" />
-          <ContactInput placeholder="Your Name" name="from_name" />
-          <ContactInput placeholder="Subject" name="subject" />
-          <ContactInputMessage placeholder="Message" rows="4" name="message" />
+          <ContactInput type="hidden" name="to_email" value="sanketp20399@gmail.com" />
+          <ContactInput placeholder="Your Email *" name="email" type="email" required />
+          <ContactInput placeholder="Your Name *" name="name" required />
+          <ContactInput placeholder="Subject *" name="title" required />
+          <ContactInputMessage placeholder="Message *" rows="4" name="message" required />
           <ContactButton type="submit" value="Send" />
         </ContactForm>
         <Snackbar
           open={open}
           autoHideDuration={6000}
-          onClose={()=>setOpen(false)}
-          message="Email sent successfully!"
-          severity="success"
-        />
+          onClose={handleClose}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        >
+          <Alert onClose={handleClose} severity={severity} sx={{ width: '100%' }} variant="filled">
+            {snackbarMessage}
+          </Alert>
+        </Snackbar>
       </Wrapper>
     </Container>
   )
